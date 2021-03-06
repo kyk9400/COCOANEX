@@ -38,7 +38,7 @@
                       <Cell col="7" text="년도"/>
                       <Cell col="8" text="받은 휴가"/>
                       <Cell col="9" text="사용한 휴가"/>
-                      <Cell col="10" text="추가지급"/>
+                      <Cell col="10" text="증감치"/>
                     </Band>
                     <Band id="body">
                       <Cell text="bind:code"/>
@@ -109,10 +109,12 @@
           <Row>
             <Col id="leave_got">5</Col>
             <Col id="hire_date">202010101</Col>
+            <Col id="name">김씨</Col>
           </Row>
           <Row>
             <Col id="leave_got">6</Col>
             <Col id="hire_date">2020050513313</Col>
+            <Col id="name">임씨</Col>
           </Row>
         </Rows>
       </Dataset>
@@ -197,6 +199,8 @@ this.M32_approveVaction_onload = function(obj:nexacro.Form,e:nexacro.LoadEventIn
 			"", // 5. strArgument 화면에서 서버로 보내는 변수값 (구분자는 띄어쓰기로' ')
 			"" // 6. strCallbackFunc
 		);
+		
+	this.Div01_btnReset_onclick();
 };
 
 this.btnInsert_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
@@ -223,10 +227,7 @@ this.Div01_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventI
 	var year = this.Div01.form.editYear.value;
 	
 	var filterCon = "";
-	if(empCode != null){
-		if(filterCon != ""){
-			filterCon = filterCon + " && ";
-		}
+	if(empCode != ""){
 		filterCon = filterCon + "code=='" + empCode + "'";
 	}
 	if(dept != '0'){
@@ -241,13 +242,13 @@ this.Div01_btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventI
 		}
 		filterCon = filterCon + "posCode=='" + pos + "'";
 	}
-	if(name != null){
+	if(name != ""){
 		if(filterCon != ""){
 			filterCon = filterCon + " && ";
 		}
 		filterCon = filterCon + "name=='" + name + "'";
 	}
-	if(year != null){
+	if(year != ""){
 		if(filterCon != ""){
 			filterCon = filterCon + " && ";
 		}
@@ -274,7 +275,7 @@ this.btnAdd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	var check = 0;
 	for(var i=0; i<this.ds_employee.rowcount; i++){
 		var leaveCount = this.ds_employee.getColumn(i, "addLeave");
-		if(leaveCount > 0){
+		if(leaveCount != 0){
 			check++;
 		}
 	} 
